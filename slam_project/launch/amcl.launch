@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Map server -->
+  <arg name="map_file" default="$(find udacity_bot)/maps/jackal_race.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+  <!-- static tf between /map and /odom 
+  <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster"
+      args="0 0 0 0 0 0 map odom 100"/>
+-->
+  <!-- Localization-->
+  <node pkg="amcl" type="amcl" name="amcl" output="screen">
+    <remap from="scan" to="udacity_bot/laser/scan"/>
+    <param name="odom_frame_id" value="odom"/>
+    <!-- min number of particles to be simulated -->
+    <param name="min_particles" value="40" />
+    <!-- max number of particles to be simulated -->
+    <param name="max_particles" value="200" />
+    <!-- min distance to translate before particles gets updated -->
+    <param name="update_min_d" value="0.01" />
+    <!-- min rotation before particles gets updated -->
+    <param name="update_min_a" value="0.026" />
+    
+    <!-- to prevent the wheels from getting detected by rangefinder -->
+    <param name="laser_min_range" value="0.1" />
+    <!-- higher publish rate to view rapid changes in the GUI -->
+    <param name="gui_publish_rate" value="50" />
+    <!-- KLD_error kept low to reduce the number of random particles that are generated with each iteration -->
+    <param name="kld_err" value="0.000001" />
+    <param name="odom_alpha1" value="0.9"/>
+    <param name="odom_alpha2" value="0.9"/>
+    <param name="odom_alpha3" value="0.9"/>
+    <param name="odom_alpha4" value="0.9"/>    
+    <param name="odom_model_type" value="diff-corrected"/>
+    <param name="base_frame_id" value="robot_footprint"/>
+    <param name="global_frame_id" value="map"/>
+
+
+
+
+
+
+      <!-- Husky parameters for testing on custom robot -->
+
+    
+        <!-- <param name="odom_alpha5" value="0.1"/>
+        <param name="gui_publish_rate" value="10.0"/>
+        <param name="laser_max_beams" value="60"/>
+        <param name="laser_max_range" value="12.0"/>
+        <param name="min_particles" value="40"/>
+        <param name="max_particles" value="200"/>
+        <param name="kld_err" value="0.05"/>
+        <param name="kld_z" value="0.99"/>
+        <param name="odom_alpha1" value="0.2"/>
+        <param name="odom_alpha2" value="0.2"/>
+        <param name="odom_alpha3" value="0.2"/>
+        <param name="odom_alpha4" value="0.2"/>
+        <param name="laser_z_hit" value="0.5"/>
+        <param name="laser_z_short" value="0.05"/>
+        <param name="laser_z_max" value="0.05"/>
+        <param name="laser_z_rand" value="0.5"/>
+        <param name="laser_sigma_hit" value="0.2"/>
+        <param name="laser_lambda_short" value="0.1"/>
+        <param name="laser_model_type" value="likelihood_field"/>
+        
+        <param name="laser_likelihood_max_dist" value="2.0"/>
+        <param name="update_min_d" value="0.25"/>
+        <param name="update_min_a" value="0.2"/>
+        <param name="odom_frame_id" value="odom"/>
+        <param name="resample_interval" value="1"/>
+
+        <param name="transform_tolerance" value="1.0"/>
+        <param name="recovery_alpha_slow" value="0.0"/>
+        <param name="recovery_alpha_fast" value="0.0"/> -->
+  </node>
+
+  <!-- Move base -->
+  <arg name="base_global_planner" default="navfn/NavfnROS"/>
+  <arg name="base_local_planner" default="dwa_local_planner/DWAPlannerROS"/>
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+
+    <rosparam file="$(find udacity_bot)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find udacity_bot)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find udacity_bot)/config/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find udacity_bot)/config/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find udacity_bot)/config/base_local_planner_params.yaml" command="load" />
+
+    <param name="base_global_planner" value="$(arg base_global_planner)" />
+    <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS" />
+    
+    <remap from="cmd_vel" to="cmd_vel"/>
+    <remap from="odom" to="odom"/>
+    <remap from="scan" to="udacity_bot/laser/scan"/>
+
+    
+    
+
+    <!-- <param name="base_local_planner" default="base_local_planner/TrajectoryPlannerROS"/> -->
+
+  </node>
+
+</launch>

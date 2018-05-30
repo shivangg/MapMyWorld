@@ -1,0 +1,12 @@
+local_costmap:
+   global_frame: map
+   robot_base_frame: robot_footprint
+   update_frequency: 10.0
+   publish_frequency: 10.0
+   width: 3.0
+   height: 3.0
+   resolution: 0.05
+# false because the LOCAL static map keeps changing 
+   static_map: false
+# Map remains centered around the robot if true
+   rolling_window: true

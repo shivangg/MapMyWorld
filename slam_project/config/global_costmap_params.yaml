@@ -1,0 +1,13 @@
+global_costmap:
+# checking if navigation works independent of the localization performance
+# global_frame: odom
+   global_frame: map
+   robot_base_frame: robot_footprint
+   update_frequency: 10.0
+   publish_frequency: 10.0
+   width: 40.0
+   height: 40.0
+   resolution: 0.05
+# Set True if using prebuilt map
+   static_map: true
+   rolling_window: false

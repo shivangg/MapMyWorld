@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+  <include file="$(find slam_project)/launch/robot_description.launch"/>
+  <arg name="world" default="empty"/> 
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="false"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+
+<!-- Integrated the keyboard teleoperation of turtlebot in udacity_bot -->
+  <!-- <include file="$(find slam_project)/launch/keyboard_teleop.launch" /> -->
+  
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+ <arg name="world_name" value="$(find slam_project)/worlds/kitchen_dining.world"/>
+  <!-- <arg name="world_name" value="$(find slam_project)/worlds/udacity.world"/>  -->
+
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="headless" value="$(arg headless)"/>
+    <arg name="debug" value="$(arg debug)"/>
+  </include>
+
+  <!-- trying a new model in which the model doesn't slip  -->
+  <!-- <env name="GAZEBO_MODEL_PATH" value="$(find slam_project)/urdf:$(optenv GAZEBO_MODEL_PATH)"/> -->
+  <!-- <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-file $(find slam_project)/urdf/onecastorCar.sdf -sdf -model diffdrive" /> -->
+
+  <!--spawn a robot in gazebo world-->
+
+ <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" 
+    output="screen" args="-urdf -param robot_description -model slam_bot_four_wheel"/>
+
+<!--   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" 
+    output="screen" args="-urdf -param robot_description -model slam_bot"/>
+ -->
+  <!--launch rviz-->
+  
+  <!-- udacity provided RViz config -->
+  <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find slam_project)/config/robot_slam.rviz.rviz" respawn="false"/> -->
+  
+  <!-- My Rviz config -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find slam_project)/config/slam_bot.rviz" respawn="false"/>
+
+  <!-- <include file="$(find slam_project)/launch/amcl.launch" />  -->
+
+</launch>

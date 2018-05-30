@@ -1,0 +1,39 @@
+TrajectoryPlannerROS:
+  # increased max vel to 0.9
+  max_vel_x: 4.0
+  # robot doesn't rotate when this is negative
+  min_vel_x: 0.1
+  
+  max_vel_theta: 1.0
+  min_vel_theta: -1.0
+#   # max_rot_vel: 3.1
+#   # min_rot_vel: -3.1
+
+  min_in_place_vel_theta: 3.1 
+  
+  yaw_goal_tolerance: 0.12
+
+  # increased acceleration in X for faster navigation 
+  acc_lim_x: 1.0
+  acc_lim_y: 0.0
+  acc_lim_theta: 3.1
+
+  holonomic_robot: false
+
+  # robot how close to the given path
+  path_distance_bias: 500
+  # How much attempt to reach the local goal
+  goal_distance_bias: 420
+  # How much attempt to avoid obstacles
+  occdist_scale: 0.95
+
+  # pdist_scale: 2.0
+  # gdist_scale: 2.6
+
+  publish_cost_grid_pc: true
+
+  controller_frequency: 10
+
+
+
+
