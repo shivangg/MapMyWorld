@@ -5,7 +5,7 @@
   <arg name="world" default="empty"/> 
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
-  <arg name="gui" default="false"/>
+  <arg name="gui" default="true"/>
   <arg name="headless" default="false"/>
   <arg name="debug" default="false"/>
 
@@ -13,8 +13,14 @@
   <!-- <include file="$(find slam_project)/launch/keyboard_teleop.launch" /> -->
   
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
- <arg name="world_name" value="$(find slam_project)/worlds/kitchen_dining.world"/>
-  <!-- <arg name="world_name" value="$(find slam_project)/worlds/udacity.world"/>  -->
+    <!-- <arg name="world_name" value="$(find slam_project)/worlds/udacity.world"/>  -->
+  
+    <!-- Use myHome for launching the custom designed world -->
+  <!-- <arg name="world_name" value="$(find slam_project)/worlds/myHome.world"/> -->
+  <arg name="world_name" value="$(find slam_project)/worlds/$(arg world_file).world"/>
+
+  <!-- Use for launching the suppied world -->
+  <!-- <arg name="world_name" value="$(find slam_project)/worlds/kitchen_dining.world"/>  -->
 
     <arg name="paused" value="$(arg paused)"/>
     <arg name="use_sim_time" value="$(arg use_sim_time)"/>
@@ -38,7 +44,7 @@
   <!--launch rviz-->
   
   <!-- udacity provided RViz config -->
-  <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find slam_project)/config/robot_slam.rviz.rviz" respawn="false"/> -->
+  <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find slam_project)/config/robot_slam.rviz" respawn="false"/> -->
   
   <!-- My Rviz config -->
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find slam_project)/config/slam_bot.rviz" respawn="false"/>
