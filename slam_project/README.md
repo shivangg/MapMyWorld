@@ -14,12 +14,15 @@ In this project will be demonstrated the importance of a map for the mobile robo
 	* A supplied Gazebo world
 	* A custom-made Gazebo world
 
-The configuration used for the mobile robot as well as the environment is discussed to achieve better performance
+![Working of RTAB Map](media/RTAB-MapWorking.jpg)
+
+The features are detected and described using the SURF(speed up robust features) on the incoming image data. Using a **bag of words** approach, the RTAB-Map detects **global loop closures** of the features. When such a loop closure hypothesis is detected, a **constraint** is added to the system. A **graph optimizer minimizes the error** in the loop, so that the **realtime constraints are always respected in the large scale environments.** It outputs a 2D occupancy grid and 3D point cloud data for the estimated map.
 
 The *2D occupancy grid* is used to represent the floor plan(in indoor use) and maps(in outdoor use). It is an equally spaced field of binary random variable each of which represent the probability about the presence of the obstacle at a given location.
 
 A 3D octomap is based on the octree library. This has the advantage of multi- resolution in map. This facilitates easier, faster and more accurate trajectory generation by using coarse map for global planner and fine map for local planners.
 
+The configuration used for the mobile robot as well as the environment is discussed to achieve better performance.
 
 
 # Background
