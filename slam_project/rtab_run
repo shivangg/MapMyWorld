@@ -1,0 +1,58 @@
+#! /bin/bash
+
+echo ' '
+read -p 'Would you like to clear the previous map database? (y/n): ' ansinput
+
+if [ “$ansinput” = “y” ]
+then
+ printf '\n Map deleted \n'
+ rm -f ~/.ros/rtabmap.db
+
+elif [ “$ansinput” = “n” ]
+then
+ printf '\n Map kept \n'
+
+else
+ echo 'Warning: Not an acceptable option. Choose (y/n).
+         '
+fi
+
+echo ' '
+
+read -p 'Enter "c" for custom world, "s" for supplied world, or enter target world destination or d for default: ' input_choice
+
+if [ "$input_choice" = "s" ]
+then
+ # x-terminal-emulator -x roslaunch slam_project udacity_world.launch 2>/dev/null &
+ echo "Using supplied world"
+ xterm -e roslaunch slam_project udacity_world.launch world_file:="kitchen_dining" 2>/dev/null &
+
+else if [ "$input_choice" = "c" ]
+then
+ # x-terminal-emulator -x roslaunch slam_project world.launch world_file:=$input_choice 2>/dev/null &
+ echo "Using custom world"
+ xterm -e roslaunch slam_project udacity_world.launch world_file:="myHome" 2>/dev/null &
+else
+	echo "Using specified target world"
+  xterm -e roslaunch slam_project world.launch world_file:=$input_choice 2>/dev/null &
+fi
+fi
+
+sleep 3 &&
+
+# x-terminal-emulator -x rosrun slam_project teleop 2>/dev/null &
+xterm -e rosrun slam_project teleop 2>	/dev/null &
+
+sleep 3 &&
+
+# echo ' '
+# read -p 'Press any key to continue to mapping... ' -n1 -s
+
+# x-terminal-emulator -x roslaunch slam_project mapping.launch simulation:=true 2>/dev/null &
+xterm -e roslaunch slam_project mapping.launch simulation:=true 2>/dev/null &
+# sleep 3 &&
+# x-terminal-emulator -e roslaunch slam_project rviz.launch 2>/dev/null
+
+echo ' '
+echo 'Script Completed'
+echo ' '
