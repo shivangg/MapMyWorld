@@ -129,6 +129,18 @@ Factors that were found to be leading to the map getting spoiled were:
 The mapping performance can found to be better in the custom world but that might be due to the higher memory requirements by the `kitchen_dining.world` thus leaving less memory for the mapping by RtabMap. But the supplied `kitchen_dining.world` was more feature rich that the custom `myHome.world`, thus leading to better feature detection by SURF(used internally by RTabMap).
 These limits can be increased If the processing power increases. If the data can be processed faster, higher speeds of robot rotation and translation can be achieved. Also, loop closures could be detected faster.
 
+The parameter tuning for Better Map Building lead to following values:
+
+```
+/slam_gmapping/agularUpdate to 0.1
+/slam_gmapping/linearUpdate to 0.1
+/slam_gmapping/lskip to 10
+/slam_gmapping/xmax to 10
+/slam_gmapping/xmin to -10
+/slam_gmapping/ymax to 10
+/slam_gmapping/ymin to -10
+```
+
 # Future Work
 RTABMap was discovered to be an indispensable resource in the field robotics responsibly taking on the task of making sense of the physical world in a format that can be digested by the robots, which can thence be of use to mankind.
   
